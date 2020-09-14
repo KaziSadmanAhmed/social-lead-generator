@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -7,14 +7,6 @@ from pydantic import BaseModel, Field
 class UserBase(BaseModel):
     email: str
     full_name: Optional[str] = None
-
-
-class UserRegisterRequest(UserBase):
-    password: str
-
-
-class UserLoginRequest(UserBase):
-    password: str
 
 
 class User(UserBase):
@@ -26,12 +18,29 @@ class User(UserBase):
         orm_mode = True
 
 
+class UserDetails(User):
+    twitter_access_token: Optional[str] = None
+    twitter_access_token_secret: Optional[str] = None
+
+
+class BaseRequest(BaseModel):
+    pass
+
+
+class UserRegisterRequest(BaseRequest, UserBase):
+    password: str
+
+
+class UserLoginRequest(BaseRequest, UserBase):
+    password: str
+
+
 class BaseResponse(BaseModel):
     success: bool = Field(title="Success Status")
 
 
-class UserListResponse(BaseResponse):
-    users: List[User]
+class UserResponse(BaseResponse):
+    user: UserDetails
 
 
 class Token(BaseModel):
@@ -39,5 +48,22 @@ class Token(BaseModel):
     token_type: str
 
 
+class TokenResponse(BaseResponse):
+    token: Token
+
+
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+
+class TwitterAuthorization(BaseModel):
+    url: str = Field(title="Authorization URL")
+
+
+class TwitterConnectResponse(BaseResponse):
+    authorization: TwitterAuthorization
+
+
+class TwitterCallbackRequest(BaseRequest):
+    oauth_token: str = Field()
+    oauth_verifier: str = Field()
