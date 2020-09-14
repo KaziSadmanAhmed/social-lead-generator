@@ -1,6 +1,6 @@
 <template lang="pug">
   v-app
-    NavBar
+    NavBar(@toggleSidebar="toggleSidebar")
     v-content
       nuxt
 
@@ -15,6 +15,12 @@ export default {
   },
   data() {
     return {}
+  },
+  methods: {
+    toggleSidebar() {
+      const isSidebarOpen = this.$store.getters['dashboard/getIsSidebarOpen']
+      this.$store.commit('dashboard/setIsSidebarOpen', !isSidebarOpen)
+    }
   }
 }
 </script>

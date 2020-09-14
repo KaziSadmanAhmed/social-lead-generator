@@ -9,7 +9,7 @@
             v-container
               v-form(v-model="loginFormValid" ref="loginForm" @submit.prevent="login")
                 v-text-field(
-                  v-model="email"
+                  v-model="auth.email"
                   label="Email"
                   type="email"
                   required
@@ -19,7 +19,7 @@
                   :rules="[validations.required('email'), validations.emailFormat()]"
                 )
                 v-text-field(
-                  v-model="password"
+                  v-model="auth.password"
                   label="Password"
                   type="password"
                   required
@@ -39,9 +39,11 @@ import validations from '@/utils/validations'
 
 export default {
   data: () => ({
+    auth: {
+      email: '',
+      password: ''
+    },
     loading: false,
-    email: '',
-    password: '',
     showPassword: false,
     loginFormValid: false,
     error: false,
@@ -53,23 +55,29 @@ export default {
       if (this.$refs.loginForm.validate()) {
         try {
           this.loading = true
+
           const formData = new FormData()
 
-          formData.append('username', this.email)
-          formData.append('password', this.password)
+          formData.append('username', this.auth.email)
+          formData.append('password', this.auth.password)
 
-          const res = await this.$axios
-            .post('/auth/login', formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            })
-            .then((res) => res.data)
+          const res = await this.$auth.loginWith('local', {
+            data: formData
+          })
+          console.log(res)
 
-          this.error = false
-          this.errorMsg = res
+          // const res = await this.$axios
+          //   .post('/auth/login', formData, {
+          //     headers: {
+          //       'Content-Type': 'multipart/form-data'
+          //     }
+          //   })
+          //   .then((res) => res.data)
 
-          this.$store.commit('auth/setSession', res)
+          // this.error = false
+          // this.errorMsg = res
+
+          // this.$store.commit('auth/setSession', res)
         } catch (err) {
           this.errorMsg = err.response.data.detail
           this.error = true

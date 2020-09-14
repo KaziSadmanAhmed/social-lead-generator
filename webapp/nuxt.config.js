@@ -32,7 +32,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/persistentState.js', ssr: false }],
+  plugins: [],
   /*
    ** Nuxt.js dev-modules
    */
@@ -46,8 +46,9 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/pwa',
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/auth'
   ],
   /*
    ** Axios module configuration
@@ -55,6 +56,29 @@ export default {
    */
   axios: {
     baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
+  },
+  auth: {
+    redirect: {
+      login: '/auth/login',
+      logout: '/auth/login',
+      home: '/dashboard'
+    },
+    localStorage: false,
+    cookie: {
+      options: {
+        expires: 1
+      }
+    },
+    resetOnError: true,
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/login', method: 'post', propertyName: 'token.access_token' },
+          logout: false,
+          user: { url: '/users/me', method: 'get', propertyName: 'user' }
+        }
+      }
+    }
   },
   /*
    ** vuetify module configuration
