@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
 
 from app import schemas, crud, auth
 from app.utils import get_db
@@ -7,10 +6,12 @@ from app.utils import get_db
 router = APIRouter()
 
 
-@router.get("/", response_model=schemas.UserListResponse)
-def list_users(db: Session = Depends(get_db), token: str = Depends(auth.get_current_active_user)):
+@router.get("/me", response_model=schemas.UserResponse)
+def list_users(user: str = Depends(auth.get_current_active_user)):
     """
-    List all the users
+    Get details of authenticated user
     """
-    users = crud.users.all(db)
-    return users
+    return {
+        "success": True,
+        "user": user
+    }
