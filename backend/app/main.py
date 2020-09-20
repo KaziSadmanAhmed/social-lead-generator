@@ -21,3 +21,4 @@ app.add_middleware(
 
 app.include_router(routers.users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(routers.auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(routers.twitter.router, prefix="/api/v1/twitter", tags=["twitter"])

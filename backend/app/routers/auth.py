@@ -55,7 +55,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
 
 
 @router.get("/twitter/connect")
-def twitter_connect(user: str = Depends(auth.get_current_active_user), response_model=schemas.TwitterConnectResponse):
+def twitter_connect(user: schemas.User = Depends(auth.get_current_active_user), response_model=schemas.TwitterConnectResponse):
     consumer_key = os.getenv("TWITTER_CONSUMER_KEY")
     consumer_secret = os.getenv("TWITTER_CONSUMER_SECRET")
     callback_url = os.getenv("TWITTER_CALLBACK_URL")

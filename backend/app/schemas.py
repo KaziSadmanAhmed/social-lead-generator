@@ -67,3 +67,26 @@ class TwitterConnectResponse(BaseResponse):
 class TwitterCallbackRequest(BaseRequest):
     oauth_token: str = Field()
     oauth_verifier: str = Field()
+
+
+class TwitterUser(BaseModel):
+    name: str = Field()
+    screen_name: str = Field()
+    profile_image_url: str = Field()
+
+
+class Tweet(BaseModel):
+    id: Optional[int] = Field()
+    text: str = Field()
+    favorite_count: Optional[int] = Field()
+    retweet_count: Optional[int] = Field()
+    created_at: Optional[datetime] = Field()
+    user: Optional[TwitterUser]
+
+
+class TweetList(BaseModel):
+    tweet_list: List[Tweet]
+
+
+class TweetListResponse(BaseResponse, TweetList):
+    pass

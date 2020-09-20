@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.get("/me", response_model=schemas.UserResponse)
-def list_users(user: str = Depends(auth.get_current_active_user)):
+def list_users(user: schemas.User = Depends(auth.get_current_active_user)):
     """
     Get details of authenticated user
     """
