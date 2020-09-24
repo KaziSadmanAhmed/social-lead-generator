@@ -70,9 +70,18 @@ class TwitterCallbackRequest(BaseRequest):
 
 
 class TwitterUser(BaseModel):
+    id: str = Field()
     name: str = Field()
     screen_name: str = Field()
     profile_image_url: str = Field()
+
+
+class TwitterUserList(BaseModel):
+    users: List[TwitterUser]
+
+
+class TwitterUserListResponse(BaseResponse, TwitterUserList):
+    pass
 
 
 class Tweet(BaseModel):
@@ -85,7 +94,7 @@ class Tweet(BaseModel):
 
 
 class TweetList(BaseModel):
-    tweet_list: List[Tweet]
+    tweets: List[Tweet]
 
 
 class TweetListResponse(BaseResponse, TweetList):

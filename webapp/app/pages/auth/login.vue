@@ -61,23 +61,9 @@ export default {
           formData.append('username', this.auth.email)
           formData.append('password', this.auth.password)
 
-          const res = await this.$auth.loginWith('local', {
+          await this.$auth.loginWith('local', {
             data: formData
           })
-          console.log(res)
-
-          // const res = await this.$axios
-          //   .post('/auth/login', formData, {
-          //     headers: {
-          //       'Content-Type': 'multipart/form-data'
-          //     }
-          //   })
-          //   .then((res) => res.data)
-
-          // this.error = false
-          // this.errorMsg = res
-
-          // this.$store.commit('auth/setSession', res)
         } catch (err) {
           this.errorMsg = err.response.data.detail
           this.error = true

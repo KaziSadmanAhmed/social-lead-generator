@@ -45,7 +45,7 @@ export default {
           this.alert.message = ''
 
           await this.$axios
-            .post('/twitter/tweet', {
+            .post('/twitter/tweets', {
               text: this.tweet.text
             })
             .then((res) => {
