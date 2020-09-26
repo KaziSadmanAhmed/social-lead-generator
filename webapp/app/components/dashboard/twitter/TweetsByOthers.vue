@@ -6,12 +6,12 @@
         v-row(align="end")
           v-col(cols=11 sm=8 md=6 lg=5)
             v-autocomplete(v-model="user" return-object :search-input.sync="q" :items="users" :item-text="searchUserText" item-value="id" label="Name" placeholder="Search by Twitter user's name" clearable :loading="loadingSearchUser" prepend-icon="mdi-account-search" hide-details hide-no-data)
-              template(v-slot:item="data")
+              template(v-slot:item="{ parent, item }")
                 v-list-item-avatar(left)
-                  v-img(:src="data.item.profile_image_url")
+                  v-img(:src="item.profile_image_url")
                 v-list-item-content
-                  v-list-item-title {{ data.item.name }}
-                  v-list-item-subtitle.caption @{{ data.item.screen_name }}
+                  v-list-item-title(v-html="parent.genFilteredText(item.name)")
+                  v-list-item-subtitle.caption(v-html="`@(${parent.genFilteredText(item.screen_name)})`")
 
           v-col(cols=1)
             v-btn(type="submit" color="primary" :loading="loadingListTweets" :readonly="loadingListTweets" :disabled="!user") Get Tweets

@@ -1,7 +1,7 @@
 from typing import Optional, List, Dict
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 
 
 class UserBase(BaseModel):
@@ -46,10 +46,6 @@ class UserResponse(BaseResponse):
 class Token(BaseModel):
     access_token: str
     token_type: str
-
-
-class TokenResponse(BaseResponse):
-    token: Token
 
 
 class TokenData(BaseModel):
@@ -98,4 +94,39 @@ class TweetList(BaseModel):
 
 
 class TweetListResponse(BaseResponse, TweetList):
+    pass
+
+
+class TwitterTrendingLocation(BaseModel):
+    name: str = Field()
+    location_type: str = Field()
+    country: Optional[str] = Field()
+    country_code: Optional[str] = Field()
+    woeid: int = Field(title="WOEID")
+
+
+class TwitterTrendingLocationList(BaseModel):
+    locations: List[TwitterTrendingLocation]
+
+
+class TwitterTrendingLocationListResponse(BaseResponse, TwitterTrendingLocationList):
+    pass
+
+
+class TwitterTrendingTopicsRequest(BaseRequest):
+    woeid: int = Field(title="WOEID")
+
+
+class TwitterTrendingTopic(BaseModel):
+    name: str = Field()
+    query: str = Field()
+    url: HttpUrl = Field()
+    tweets_count: Optional[int] = Field()
+
+
+class TwitterTrendingTopicList(BaseModel):
+    topics: List[TwitterTrendingTopic]
+
+
+class TwitterTrendingTopicListResponse(BaseResponse, TwitterTrendingTopicList):
     pass

@@ -14,6 +14,11 @@
             v-icon mdi-text-box-multiple-outline
           v-list-item-content
             v-list-item-title List Tweets
+        v-list-item(:to="{name: 'dashboard-twitter-trending'}" link nuxt)
+          v-list-item-icon
+            v-icon mdi-trending-up
+          v-list-item-content
+            v-list-item-title Trending
 </template>
 
 <script>

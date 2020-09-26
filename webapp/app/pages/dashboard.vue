@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-container.fill-height
+  v-container
     SideBar
     nuxt-child
 </template>

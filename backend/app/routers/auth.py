@@ -35,7 +35,7 @@ def authenticate_user(db, username: str, password: str):
     return user
 
 
-@router.post("/login", response_model=schemas.TokenResponse)
+@router.post("/login", response_model=schemas.Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -46,11 +46,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
         )
     access_token = auth.create_access_token(data={"sub": user.email})
     return {
-        "success": True,
-        "token": {
-            "access_token": access_token,
-            "token_type": "bearer"
-        }
+        "access_token": access_token,
+        "token_type": "bearer"
     }
 
 

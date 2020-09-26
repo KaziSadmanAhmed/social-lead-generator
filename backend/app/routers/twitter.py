@@ -154,3 +154,77 @@ def list_tweets_by_user(twitter_user_id: int, user: schemas.User = Depends(auth.
         print(e)
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Cannot get tweets")
+
+
+@router.get("/trending/locations", response_model=schemas.TwitterTrendingLocationListResponse)
+def list_trending_locations(user: schemas.User = Depends(auth.get_current_active_user)):
+    """
+    List all available trending locations
+    """
+
+    try:
+        consumer_key = os.getenv("TWITTER_CONSUMER_KEY")
+        consumer_secret = os.getenv("TWITTER_CONSUMER_SECRET")
+
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(user.twitter_access_token,
+                              user.twitter_access_token_secret)
+
+        api = tweepy.API(auth)
+
+        trending_locations = [
+            {
+                "name": location["name"],
+                "location_type": location["placeType"]["name"],
+                "country": location["country"],
+                "country_code": location["countryCode"],
+                "woeid": location["woeid"]
+            } for location in api.trends_available()
+        ]
+
+        return {
+            "success": True,
+            "locations": trending_locations
+        }
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Cannot get locations")
+
+
+
+@router.post("/trending/topics", response_model=schemas.TwitterTrendingTopicListResponse)
+def list_trending_topics_by_location(location: schemas.TwitterTrendingTopicsRequest, user: schemas.User = Depends(auth.get_current_active_user)):
+    """
+    List trending topics by location
+    """
+
+    try:
+        consumer_key = os.getenv("TWITTER_CONSUMER_KEY")
+        consumer_secret = os.getenv("TWITTER_CONSUMER_SECRET")
+
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(user.twitter_access_token,
+                              user.twitter_access_token_secret)
+
+        api = tweepy.API(auth)
+
+        trending_topics = api.trends_place(location.woeid)
+
+        return {
+            "success": True,
+            "topics": [
+                {
+                    "name": topic["name"],
+                    "query": topic["query"],
+                    "url": topic["url"],
+                    "tweets_count": topic["tweet_volume"]
+                } for topic in trending_topics[0]["trends"]
+            ]
+        }
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Cannot get topics")
