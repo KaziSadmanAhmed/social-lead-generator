@@ -1,0 +1,58 @@
+{
+  "name": "social-lead-generator",
+  "version": "1.0.0",
+  "description": "Social Lead Generator",
+  "author": "Kazi Sadman Ahmed <hello@sadman.xyz>",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "test": "ava"
+  },
+  "lint-staged": {
+    "*.{js,vue}": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "apexcharts": "^3.21.0",
+    "js-cookie": "^2.2.1",
+    "nuxt": "^2.0.0",
+    "vue-apexcharts": "^1.6.0",
+    "vuex-persistedstate": "^3.1.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/eslint-config": "^1.0.1",
+    "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.0.0",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "ava": "^2.2.0",
+    "babel-eslint": "^10.0.1",
+    "browser-env": "^3.2.5",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-nuxt": ">=0.4.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^2.6.0",
+    "lint-staged": "^8.2.1",
+    "node-sass": "^4.14.1",
+    "prettier": "^1.16.4",
+    "pug": "^3.0.0",
+    "pug-plain-loader": "^1.0.0",
+    "require-extension-hooks": "^0.3.3",
+    "require-extension-hooks-babel": "^1.0.0",
+    "require-extension-hooks-vue": "^2.0.0",
+    "sass-loader": "^10.0.2"
+  }
+}
