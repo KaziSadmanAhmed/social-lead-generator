@@ -21,8 +21,12 @@
 
 <script>
 import validations from '@/utils/validations'
+import TwitterConnect from '@/components/core/auth/twitter/TwitterConnect'
 
 export default {
+  components: {
+    TwitterConnect
+  },
   data: () => ({
     loading: false,
     postTweetFormValid: false,

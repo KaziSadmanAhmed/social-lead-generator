@@ -25,7 +25,12 @@
 </template>
 
 <script>
+import TwitterConnect from '@/components/core/auth/twitter/TwitterConnect'
+
 export default {
+  components: {
+    TwitterConnect
+  },
   filters: {
     kFormatter(num) {
       const absNum = Math.abs(num)
