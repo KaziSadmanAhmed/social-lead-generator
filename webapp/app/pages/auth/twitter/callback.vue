@@ -12,7 +12,7 @@ export default {
     alertType: '',
     alertMsg: ''
   }),
-  async beforeCreate() {
+  async created() {
     await this.callback()
     await this.$auth.fetchUser()
     setTimeout(() => {
