@@ -20,7 +20,7 @@ def all(db: Session):
 
 def create(db: Session, user: schemas.UserRegisterRequest):
     hashed_password = auth.get_password_hash(user.password)
-    db_user = models.User(email=user.email, hashed_password=hashed_password)
+    db_user = models.User(email=user.email, hashed_password=hashed_password, full_name=user.full_name)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

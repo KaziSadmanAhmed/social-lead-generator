@@ -14,11 +14,15 @@ const maxLength = (propertyType, maxLength) => {
     `${propertyType} must be less than ${maxLength} characters`
 }
 
-const passwordComplexity = (propertyType) => {
+const passwordComplexity = () => {
   const regExp = /(?:[A-Za-z].*?\d|\d.*?[A-Za-z])/
   return (value) =>
     (value && regExp.test(value)) ||
-    `${propertyType} must have at least one letter and one number`
+    'Password must have at least one letter and one number'
+}
+
+const matchPasswords = (pass) => {
+  return (v) => (v && v === pass) || 'Passwords do not match'
 }
 
 const emailFormat = () => {
@@ -31,5 +35,6 @@ export default {
   minLength,
   maxLength,
   passwordComplexity,
+  matchPasswords,
   emailFormat
 }

@@ -10,8 +10,8 @@ from app.utils import get_db
 router = APIRouter()
 
 
-@router.post("/tweets")
-def post_tweet(tweet: schemas.Tweet, user: schemas.User = Depends(auth.get_current_active_user), response_model=schemas.BaseResponse):
+@router.post("/tweets", response_model=schemas.BaseResponse)
+def post_tweet(tweet: schemas.Tweet, user: schemas.User = Depends(auth.get_current_active_user)):
     """
     Post tweet to authenticated user's twitter timeline
     """
@@ -37,8 +37,8 @@ def post_tweet(tweet: schemas.Tweet, user: schemas.User = Depends(auth.get_curre
             status_code=status.HTTP_403_FORBIDDEN, detail="Cannot post tweet")
 
 
-@router.get("/tweets")
-def list_tweets(user: schemas.User = Depends(auth.get_current_active_user), response_model=schemas.TweetListResponse):
+@router.get("/tweets", response_model=schemas.TweetListResponse)
+def list_tweets(user: schemas.User = Depends(auth.get_current_active_user)):
     """
     List tweets from the authenticated user's twitter timeline
     """
@@ -79,8 +79,8 @@ def list_tweets(user: schemas.User = Depends(auth.get_current_active_user), resp
             status_code=status.HTTP_403_FORBIDDEN, detail="Cannot get tweets")
 
 
-@router.get("/users")
-def search_users(q: str, user: schemas.User = Depends(auth.get_current_active_user), response_model=schemas.TwitterUserListResponse):
+@router.get("/users", response_model=schemas.TwitterUserListResponse)
+def search_users(q: str, user: schemas.User = Depends(auth.get_current_active_user)):
     """
     Search users from twitter
     """
@@ -113,8 +113,8 @@ def search_users(q: str, user: schemas.User = Depends(auth.get_current_active_us
             status_code=status.HTTP_403_FORBIDDEN, detail="Cannot search users")
 
 
-@router.get("/users/{twitter_user_id}/tweets")
-def list_tweets_by_user(twitter_user_id: int, user: schemas.User = Depends(auth.get_current_active_user), response_model=schemas.TweetListResponse):
+@router.get("/users/{twitter_user_id}/tweets", response_model=schemas.TweetListResponse)
+def list_tweets_by_user(twitter_user_id: int, user: schemas.User = Depends(auth.get_current_active_user)):
     """
     List tweets by user id
     """

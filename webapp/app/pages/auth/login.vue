@@ -28,9 +28,11 @@
                   :readonly="loading"
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="[validations.required('password'), validations.passwordComplexity('password'), validations.minLength('password', 8), validations.maxLength('password', 20)]"
+                  :rules="[validations.required('password')]"
                   @click:append="showPassword = !showPassword"
                 )
+                v-flex.mb-4
+                  a.body-2(@click="$router.push({name: 'auth-register'})") Not registered? Click here to register
                 v-btn(color="primary" type="submit" :loading="loading" :disabled="!loginFormValid") Login
 </template>
 
