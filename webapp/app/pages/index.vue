@@ -4,6 +4,8 @@
 
 <script>
 export default {
-  components: {}
+  created() {
+    this.$router.push({ name: 'dashboard' })
+  }
 }
 </script>

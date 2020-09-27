@@ -1,5 +1,6 @@
 <template lang="pug">
   v-container
+    TwitterConnect
     v-alert(:type="alert.type" v-model="alert.open" dismissible) {{ alert.message }}
     v-card
       v-card-title.headline.grey.lighten-2 Post a Tweet

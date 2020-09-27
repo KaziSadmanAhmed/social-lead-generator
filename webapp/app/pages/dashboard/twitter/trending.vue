@@ -1,5 +1,6 @@
 <template lang="pug">
   v-row
+    TwitterConnect
 
     v-col(cols=12)
       v-form(@submit.prevent="fetchTopics")
