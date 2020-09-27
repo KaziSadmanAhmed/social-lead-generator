@@ -82,6 +82,8 @@ export default {
             email: this.email,
             password: this.password
           })
+
+          this.$router.push({ name: 'auth-login' })
         } catch (err) {
           this.errorMsg = err.response.data.detail
           this.error = true
