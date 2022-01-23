@@ -10,4 +10,6 @@ COPY requirements.txt /srv/backend/
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . /srv/backend/
 
-CMD uvicorn --host 0.0.0.0 app:app --reload
+EXPOSE 8000
+
+CMD ["uvicorn", "--host", "0.0.0.0", "app:app", "--reload"]
