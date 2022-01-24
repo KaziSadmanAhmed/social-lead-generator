@@ -4,11 +4,11 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apk add --no-cache make build-base libffi-dev
 
-RUN mkdir /srv/backend
-WORKDIR /srv/backend
-COPY requirements.txt /srv/backend/
+RUN mkdir /srv/api
+WORKDIR /srv/api
+COPY requirements.txt /srv/api/
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . /srv/backend/
+COPY . /srv/api/
 
 EXPOSE 8000
 

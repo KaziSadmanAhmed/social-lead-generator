@@ -7,16 +7,16 @@ services:
   #     - POSTGRES_DB=postgres
   #     - POSTGRES_USER=postgres
   #     - POSTGRES_PASSWORD=postgres
-  backend:
-    build: ./backend
+  api:
+    build: ./api
     command: uvicorn --host 0.0.0.0 app:app --reload
     volumes:
-      - ./backend:/srv/backend
+      - ./api:/srv/api
     ports:
       - 8000:8000
     # depends_on:
     #   - db
-    env_file: ./backend/.env
+    env_file: ./api/.env
 
   webapp:
     build: ./webapp

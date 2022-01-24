@@ -1,15 +1,15 @@
-from typing import Optional
 from datetime import datetime, timedelta
+from typing import Dict, Optional
 
-from fastapi import Depends, status, HTTPException
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from passlib.context import CryptContext
 from jose import JWTError, jwt
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 
-from app import schemas, crud
-from app.utils import get_db
-from app.config import settings
+from app import crud, schemas
+from app.config import Settings
+from app.utils import get_db, get_settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -24,19 +24,25 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(
+    data: Dict,
+    expires_delta: Optional[timedelta] = None,
+    settings: Settings = Depends(get_settings)
+):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(seconds=settings.access_token_expiration)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.hash_algo)
+    encoded_jwt = jwt.encode(
+        to_encode, settings.secret_key, algorithm=settings.hash_algo)
     return encoded_jwt
 
 
-def verify_jwt(token: str):
-    payload = jwt.decode(token, settings.secret_key, algorithms=[settings.hash_algo])
+def verify_jwt(token: str, settings: Settings = Depends(get_settings)):
+    payload = jwt.decode(token, settings.secret_key,
+                         algorithms=[settings.hash_algo])
     username: str = payload.get("sub")
     return username
 
@@ -64,5 +70,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
 
 async def get_current_active_user(current_user: schemas.User = Depends(get_current_user)):
     if not current_user.is_active:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Inactive user")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Inactive user")
     return current_user

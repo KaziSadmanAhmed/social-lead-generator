@@ -1,15 +1,13 @@
 import os
 
-from fastapi import Request, APIRouter, Depends, HTTPException, status
+import tweepy
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-import tweepy
 
-from app import schemas, crud, auth
+from app import auth, crud, schemas
 from app.utils import get_db
-
-from app.config import settings
 
 router = APIRouter()
 
@@ -73,7 +71,7 @@ def twitter_connect(user: schemas.User = Depends(auth.get_current_active_user)):
             detail="Error! Failed to get request token."
         )
 
-    
+
 @router.post("/twitter/callback", response_model=schemas.BaseResponse)
 def twitter_callback(oauth_data: schemas.TwitterCallbackRequest, db: Session = Depends(get_db), user: str = Depends(auth.get_current_active_user)):
 
