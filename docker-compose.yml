@@ -1,32 +1,24 @@
 version: "3.8"
 
 services:
-  # db:
-  #   image: postgres
-  #   environment:
-  #     - POSTGRES_DB=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
   api:
     build: ./api
     command: uvicorn --host 0.0.0.0 app:app --reload
+    restart: on-failure
     volumes:
       - ./api:/srv/api
     ports:
       - 8000:8000
-    # depends_on:
-    #   - db
     env_file: ./api/.env
 
   webapp:
     build: ./webapp
+    restart: on-failure
+    depends_on:
+      - api
     volumes:
       - ./webapp/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./webapp/caddy/data:/data
       - ./webapp/caddy/config:/config
-
     ports:
       - 3000:80
-    # depends_on:
-    #   - db
-    # env_file: ./backend/.env

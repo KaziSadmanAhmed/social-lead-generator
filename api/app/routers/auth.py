@@ -18,7 +18,6 @@ def register(user: schemas.UserRegisterRequest, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail="Email already registered")
-    print(user.full_name)
     registered_user = crud.users.create(db=db, user=user)
 
     return {
