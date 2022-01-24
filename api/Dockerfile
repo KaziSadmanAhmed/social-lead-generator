@@ -2,7 +2,7 @@ FROM python:3-alpine
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk add --no-cache make build-base libffi-dev
+RUN apk add --no-cache make build-base libffi-dev libpq-dev
 
 RUN mkdir /srv/api
 WORKDIR /srv/api

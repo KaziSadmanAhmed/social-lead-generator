@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -8,8 +8,8 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
-from app.config import Settings
-from app.utils import get_db, get_settings
+from app.config import settings
+from app.utils import get_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -25,9 +25,8 @@ def get_password_hash(password):
 
 
 def create_access_token(
-    data: Dict,
-    expires_delta: Optional[timedelta] = None,
-    settings: Settings = Depends(get_settings)
+    data: Dict[str, Any],
+    expires_delta: Optional[timedelta] = None
 ):
     to_encode = data.copy()
     if expires_delta:
@@ -40,7 +39,7 @@ def create_access_token(
     return encoded_jwt
 
 
-def verify_jwt(token: str, settings: Settings = Depends(get_settings)):
+def verify_jwt(token: str):
     payload = jwt.decode(token, settings.secret_key,
                          algorithms=[settings.hash_algo])
     username: str = payload.get("sub")

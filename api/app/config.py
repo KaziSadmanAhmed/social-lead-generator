@@ -5,6 +5,10 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     env: str = os.getenv("ENV", "dev")
+    db_host: str = os.getenv("DB_HOST", "./db.sqlite3")
+    db_name: str = os.getenv("DB_NAME", "")
+    db_user: str = os.getenv("DB_USER", "")
+    db_password: str = os.getenv("DB_PASSWORD", "")
     app_name: str = os.getenv("APP_NAME", "Social Lead Generator")
     admin_email: str = os.getenv("ADMIN_EMAIL", "hello@sadman.xyz")
     secret_key: str = os.getenv("SECRET_KEY", "SECREY KEY")
@@ -12,3 +16,6 @@ class Settings(BaseSettings):
     access_token_expiration: int = int(
         os.getenv("ACCESS_TOKEN_EXPIRATION", 86400)
     )
+
+
+settings = Settings()
