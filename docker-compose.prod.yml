@@ -5,7 +5,7 @@ services:
     image: postgres
     restart: unless-stopped
     volumes:
-      - ./postgres/data:/var/lib/postgresql/data
+      - /var/lib/postgresql/data
     env_file: ./postgres/.env
 
   api:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - api
     volumes:
-      - ./webapp/caddy/data:/data
-      - ./webapp/caddy/config:/config
+      - /data
+      - /config
     ports:
       - 80:80
