@@ -7,6 +7,11 @@ services:
     restart: unless-stopped
     volumes:
       - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     env_file: .env.prod
     environment:
       POSTGRES_DB: ${DB_NAME:?}
@@ -16,7 +21,7 @@ services:
   api:
     image: sadmanahmed/social-lead-generator_api:latest
     container_name: ${PREFIX:?}_api-${ENV:?}
-    command: uvicorn --host 0.0.0.0 app:app --reload
+    command: sh -c 'while ! nc -z ${DB_HOST:?} ${DB_PORT:?}; do sleep 1; done; uvicorn --host 0.0.0.0 app:app --reload'
     restart: on-failure
     depends_on:
       - db
