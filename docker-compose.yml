@@ -9,7 +9,7 @@ services:
       - ./api:/srv/api
     ports:
       - 8000:8000
-    env_file: ./api/.env
+    env_file: .env
 
   webapp:
     build: ./webapp
