@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    image: postgres
+    image: postgres:14-alpine
     container_name: ${PREFIX:?}_db-${ENV:?}
     restart: unless-stopped
     volumes:
