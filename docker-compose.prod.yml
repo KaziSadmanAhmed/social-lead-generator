@@ -6,7 +6,7 @@ services:
     container_name: ${PREFIX:?}_db-${ENV:?}
     restart: unless-stopped
     volumes:
-      - /var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready -U postgres"]
       interval: 5s
@@ -36,7 +36,12 @@ services:
     depends_on:
       - api
     volumes:
-      - /data
-      - /config
+      - caddy-data:/data
+      - caddy-config:/config
     ports:
       - 80:80
+
+volumes:
+  db-data-${ENV}:
+  caddy-data:
+  caddy-config:
