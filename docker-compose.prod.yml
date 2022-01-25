@@ -3,6 +3,7 @@ version: "3.9"
 services:
   db:
     image: postgres
+    container_name: ${PREFIX:?}_db-${ENV:?}
     restart: unless-stopped
     volumes:
       - /var/lib/postgresql/data
@@ -14,6 +15,7 @@ services:
 
   api:
     image: social-lead-generator_api:latest
+    container_name: ${PREFIX:?}_api-${ENV:?}
     command: uvicorn --host 0.0.0.0 app:app --reload
     restart: on-failure
     depends_on:
@@ -24,6 +26,7 @@ services:
 
   webapp:
     image: social-lead-generator_webapp:latest
+    container_name: ${PREFIX:?}_webapp-${ENV:?}
     restart: on-failure
     depends_on:
       - api
