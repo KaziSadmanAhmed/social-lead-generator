@@ -21,6 +21,12 @@ app.add_middleware(
 )
 
 app.include_router(
+    routers.healthcheck.router,
+    prefix="/api/v1/healthcheck",
+    tags=["healthcheck"]
+)
+
+app.include_router(
     routers.users.router,
     prefix="/api/v1/users",
     tags=["users"]

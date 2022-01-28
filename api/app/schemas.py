@@ -39,6 +39,10 @@ class BaseResponse(BaseModel):
     success: bool = Field(title="Success Status")
 
 
+class HealthCheckRespose(BaseResponse):
+    status: str = Field(title="Health check status")
+
+
 class UserResponse(BaseResponse):
     user: UserDetails
 

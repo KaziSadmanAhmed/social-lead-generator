@@ -6,6 +6,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     env: str = os.getenv("ENV", "dev")
     db_host: str = os.getenv("DB_HOST", "./db.sqlite3")
+    db_host_dns_record_type = os.getenv("DB_HOST_DNS_RECORD_TYPE", "A")
     db_port: int = int(os.getenv("DB_PORT", 0))
     db_name: str = os.getenv("DB_NAME", "")
     db_user: str = os.getenv("DB_USER", "")
