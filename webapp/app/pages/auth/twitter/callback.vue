@@ -22,7 +22,7 @@ export default {
   methods: {
     async callback() {
       try {
-        const res = await this.$axios
+        const res = await this.$api
           .post('/auth/twitter/callback', {
             oauth_token: this.$route.query.oauth_token,
             oauth_verifier: this.$route.query.oauth_verifier

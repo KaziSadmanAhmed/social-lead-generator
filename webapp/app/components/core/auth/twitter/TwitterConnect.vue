@@ -17,7 +17,7 @@ export default {
     async connect() {
       try {
         this.loading = true
-        const res = await this.$axios
+        const res = await this.$api
           .get('/auth/twitter/connect')
           .then((res) => res.data)
 

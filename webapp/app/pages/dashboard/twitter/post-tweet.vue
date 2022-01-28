@@ -49,7 +49,7 @@ export default {
           this.alert.type = 'success'
           this.alert.message = ''
 
-          await this.$axios
+          await this.$api
             .post('/twitter/tweets', {
               text: this.tweet.text
             })

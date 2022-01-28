@@ -3,6 +3,10 @@ require('dotenv').config()
 export default {
   mode: 'spa',
   srcDir: 'app',
+  env: {
+    env: process.env.ENV || 'dev',
+    apiBaseUrl: process.env.API_BASE_URL
+  },
   /*
    ** Headers of the page
    */
@@ -31,7 +35,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/apexcharts.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/axios.js' },
+    { src: '~/plugins/apexcharts.js', ssr: false }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

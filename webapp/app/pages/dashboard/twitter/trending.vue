@@ -58,7 +58,7 @@ export default {
     async getLocations() {
       try {
         this.loadingLocations = true
-        this.locations = await this.$axios
+        this.locations = await this.$api
           .get('/twitter/trending/locations')
           .then((res) => res.data.locations)
       } catch (err) {
@@ -79,7 +79,7 @@ export default {
     async fetchTopics() {
       try {
         this.loadingTopics = true
-        this.topics = await this.$axios
+        this.topics = await this.$api
           .post('/twitter/trending/topics', {
             woeid: this.location.woeid
           })
