@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./api
+    container_name: ${PREFIX:?}_api-${ENV:?}
+    command: uvicorn --host 0.0.0.0 app:app --reload
+    restart: on-failure
+    volumes:
+      - ./api:/srv/api
+    ports:
+      - 8000:8000
+    env_file: .env
+
+  webapp:
+    build: ./webapp
+    container_name: ${PREFIX:?}_webapp-${ENV:?}
+    restart: on-failure
+    depends_on:
+      - api
+    volumes:
+      - ./webapp/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./webapp/caddy/data:/data
+      - ./webapp/caddy/config:/config
+    ports:
+      - 3000:80

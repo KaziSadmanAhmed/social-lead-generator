@@ -12,7 +12,7 @@ export default {
     alertType: '',
     alertMsg: ''
   }),
-  async beforeCreate() {
+  async created() {
     await this.callback()
     await this.$auth.fetchUser()
     setTimeout(() => {
@@ -22,7 +22,7 @@ export default {
   methods: {
     async callback() {
       try {
-        const res = await this.$axios
+        const res = await this.$api
           .post('/auth/twitter/callback', {
             oauth_token: this.$route.query.oauth_token,
             oauth_verifier: this.$route.query.oauth_verifier

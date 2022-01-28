@@ -77,11 +77,13 @@ export default {
         try {
           this.loading = true
 
-          await this.$axios.post('/auth/register', {
+          await this.$api.post('/auth/register', {
             full_name: this.fullName,
             email: this.email,
             password: this.password
           })
+
+          this.$router.push({ name: 'auth-login' })
         } catch (err) {
           this.errorMsg = err.response.data.detail
           this.error = true

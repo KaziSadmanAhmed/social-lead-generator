@@ -21,8 +21,12 @@
 
 <script>
 import validations from '@/utils/validations'
+import TwitterConnect from '@/components/core/auth/twitter/TwitterConnect'
 
 export default {
+  components: {
+    TwitterConnect
+  },
   data: () => ({
     loading: false,
     postTweetFormValid: false,
@@ -45,7 +49,7 @@ export default {
           this.alert.type = 'success'
           this.alert.message = ''
 
-          await this.$axios
+          await this.$api
             .post('/twitter/tweets', {
               text: this.tweet.text
             })

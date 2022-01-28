@@ -1,9 +1,12 @@
 require('dotenv').config()
-import colors from 'vuetify/es5/util/colors'
 
 export default {
   mode: 'spa',
   srcDir: 'app',
+  env: {
+    env: process.env.ENV || 'dev',
+    apiBaseUrl: process.env.API_BASE_URL
+  },
   /*
    ** Headers of the page
    */
@@ -33,6 +36,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    { src: '~/plugins/axios.js' },
     { src: '~/plugins/apexcharts.js', ssr: false }
   ],
   /*
@@ -57,7 +61,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
+    baseURL: process.env.API_BASE_URL // Used as fallback if no runtime config is provided
   },
   auth: {
     redirect: {
@@ -75,7 +79,11 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: 'access_token' },
+          login: {
+            url: '/auth/login',
+            method: 'post',
+            propertyName: 'access_token'
+          },
           logout: false,
           user: { url: '/users/me', method: 'get', propertyName: 'user' }
         }
@@ -110,5 +118,9 @@ export default {
         })
       }
     }
+  },
+  // server configuration
+  server: {
+    host: '0.0.0.0'
   }
 }

@@ -107,7 +107,7 @@ export default {
     async fetchTweets() {
       try {
         this.loadingListTweets = true
-        this.tweets = await this.$axios
+        this.tweets = await this.$api
           .get(`twitter/users/${this.user.id}/tweets`)
           .then((res) => res.data.tweets)
       } catch (err) {

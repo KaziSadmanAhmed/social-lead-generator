@@ -57,7 +57,7 @@ export default {
   methods: {
     async fetchTweets() {
       try {
-        this.tweets = await this.$axios
+        this.tweets = await this.$api
           .get('twitter/tweets')
           .then((res) => res.data.tweets)
       } catch (err) {}
